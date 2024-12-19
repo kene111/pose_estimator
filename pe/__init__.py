@@ -11,9 +11,6 @@ from .components.ext_lib.core.config import update_dir
 from .components.ext_lib.core.config import update_config
 from .components.ext_lib.core.config import get_model_name
 
-
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
 def create_app(env_config=None):
     # instantiate the app
     app = Flask(__name__)
