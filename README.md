@@ -55,8 +55,8 @@ Original Samples:
 
 
 ![sample_1](images/original/standing_man_1.jpg)
-![sample_2](images/original/standing_man_2.jpg)
-![sample_3](images/original/standing_man_3.jpg)
+![sample_2](images/original/standing_man_3.jpg)
+![sample_3](images/original/standing_man_6.jpg)
 
 Pose Estimate Samples:
 
