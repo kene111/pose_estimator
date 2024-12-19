@@ -23,6 +23,10 @@ def create_app(env_config=None):
 
     pre_path = os.path.split(app.root_path)[0]
     PoseEstimatorConfig.output_dir = os.path.join(pre_path, PoseEstimatorConfig.output_dir)
+    PoseEstimatorConfig.uploaded_dir = os.path.join(pre_path, PoseEstimatorConfig.uploaded_dir)
+
+    os.makedirs(PoseEstimatorConfig.uploaded_dir, exist_ok=True)
+    os.makedirs(PoseEstimatorConfig.output_dir, exist_ok=True)
     ###### MODEL INITIALIZATION #####################################
     update_config(PoseEstimatorConfig.config_path)
     config.GPUS = ''
