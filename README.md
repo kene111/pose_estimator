@@ -45,10 +45,19 @@ pose_estimator (pe) is a deep learning learning system used in estimating human 
 
 ### How to make requests to the deployed application:
 1.  estimate_pose (```POST```): Using postman, upload the data as form data, where the key value is ```file```.
-![image_postman_1](xxx)
+![image_postman_1](images/postman/postman_1.png)
 
 2. download (```GET```): Copy the link returned in step one and place on the web browser or make a get request using postman.
-![image_postman_2](xxx)
+![image_postman_1](images/postman/postman_2.png)
 
 ### Sample Images:
+Original Samples:
+![sample_1](images/original/standing_man_1.jpg)
+![sample_2](images/original/standing_man_2.jpg)
+![sample_3](images/original/standing_man_3.jpg)
+
+Pose Estimate Samples:
+![pe_sample_1](images/pose_estimates/pe_1.png)
+![pe_sample_2](images/pose_estimates/pe_2.png)
+![pe_sample_3](images/pose_estimates/pe_3.png)
 
