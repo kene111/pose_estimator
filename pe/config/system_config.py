@@ -1,8 +1,9 @@
 import os
 
 class PoseEstimatorConfig:
-    model_dir = "./pe/models"
-    data_dir = "./data/"
+    "Pose Estimator Config Class"
+    model_dir = "pe/models"
+    data_dir = "data"
     uploaded_dir = os.path.join(data_dir, "uploads")
     output_dir = os.path.join(data_dir, "pose_outdir")
     os.makedirs(uploaded_dir, exist_ok=True)

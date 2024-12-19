@@ -9,8 +9,7 @@ from werkzeug.utils import secure_filename
 from .components.pose_estimator import PoseEstimator
 from .config.system_config import PoseEstimatorConfig
 from .utils.system_utils import construct_downloadble_uri
-from flask import jsonify, request, Response, send_from_directory
-
+from flask import jsonify, request, Response, send_from_directory,  send_file
 
 
 @pe_endpoints.route('/pe_alive', methods=['GET'])
@@ -29,18 +28,17 @@ def pose_estimation():
     image_path =  os.path.join(PoseEstimatorConfig.uploaded_dir, filename)
     file_.save(image_path)
 
-    # try:
-    _, image_path = pe_estimator.estimate_pose(image_path, save=True)
-    image_download_uri = construct_downloadble_uri(image_path)
-    system_response = {"system_message": image_download_uri}
-    return Response(response=json.dumps(system_response), status=200, mimetype='application/json')
-    # except:
-    #     system_response = {"system_message":"fail"}
-    #     return Response(response=json.dumps(system_response), status=400, mimetype='application/json')
+    try:
+        _, image_path = pe_estimator.estimate_pose(image_path, save=True)
+        image_download_uri = construct_downloadble_uri(image_path)
+        system_response = {"system_message": image_download_uri}
+        return Response(response=json.dumps(system_response), status=200, mimetype='application/json')
+    except Exeption as e:
+        system_response = {"system_message":f"System Error: {e}"}
+        return Response(response=json.dumps(system_response), status=400, mimetype='application/json')
 
 
-@pe_endpoints.route("/download/<file_name>", methods=['GET'])
+@pe_endpoints.route("/download/<path:file_name>", methods=['GET'])
 @cross_origin()
 def download_file(file_name):
-    print(file_name)
-    return send_from_directory(PoseEstimatorConfig.output_dir, file_name, as_attachment=True)
+    return send_from_directory(directory=PoseEstimatorConfig.output_dir, path=file_name, as_attachment=True)

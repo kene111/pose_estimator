@@ -24,7 +24,8 @@ def create_app(env_config=None):
         env_config = os.getenv("PROD_APP_SETTINGS", "development")
     app.config.from_object(dep_config[env_config])
 
-    
+    pre_path = os.path.split(app.root_path)[0]
+    PoseEstimatorConfig.output_dir = os.path.join(pre_path, PoseEstimatorConfig.output_dir)
     ###### MODEL INITIALIZATION #####################################
     update_config(PoseEstimatorConfig.config_path)
     config.GPUS = ''
