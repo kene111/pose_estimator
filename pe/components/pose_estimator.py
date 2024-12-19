@@ -3,7 +3,6 @@ import torch
 import torch.optim
 import torch.nn as nn
 import torchvision.transforms as T
-# import torch.backends.cudnn as cudnn
 
 # opencv & others
 import cv2
@@ -16,11 +15,51 @@ import numpy as np
 from operator import itemgetter
 
 from PIL import Image
-# import matplotlib.pyplot as plt
-
 from ..config.system_config import PoseEstimatorConfig
 
 class PoseEstimator:
+  """ The Pose Estimator object class runs pose estimation on images.
+        
+    Attributes
+    ----------
+    JOINTS : list
+      List of pose indictors and their integer mapping.
+    
+    POSE_THRESHOLD : float
+      Threshold for classifying pose indicator
+
+    get_detached : lambda
+      lambda function
+
+    get_keypoints: object
+      lambda function
+
+    model: Torch Model
+      pose estimator model
+
+    transform:
+      Torch Image Transformation
+
+    POSE_PAIRS: list
+      Pose indcator id pairs.
+
+
+    Methods
+    -------
+    load_image
+      Load Pil Image from image path.
+
+
+    get_pose_indicators
+      Run inference on model to get pose indicator points.
+
+    draw_coor_on_image
+      Draws pose on blank image.
+
+    estimate_pose
+      Runs the process of getting pose estimation.
+    """
+
   def __init__(self):
     JOINTS = ['0 - r ankle', '1 - r knee', '2 - r hip', '3 - l hip', '4 - l knee', '5 - l ankle', '6 - pelvis', '7 - thorax', '8 - upper neck', '9 - head top', '10 - r wrist', '11 - r elbow', '12 - r shoulder', '13 - l shoulder', '14 - l elbow', '15 - l wrist']
     self.JOINTS = [re.sub(r'[0-9]+|-', '', joint).strip().replace(' ', '-') for joint in JOINTS]
@@ -59,17 +98,54 @@ class PoseEstimator:
                         ]
 
   def load_image(self, image_path):
+    """Load Pil Image from image path.
+      Parameters
+      ----------
+      image_path: str
+        Image path
+      
+      Returns
+      -------
+      image: PIL.Image
+        PIL image
+    """
     image = Image.open(image_path)
     image = image.convert('RGB')
     return image
 
   def get_pose_indicators(self, image):
+    """Run inference on model to get pose indicator points.
+      Parameters
+      ----------
+      image: PIL.Image
+        PIL image
+      
+      Returns
+      -------
+      output: list
+        pose points coordinates
+    """
     tr_img = self.transform(image)
     output = self.model(tr_img.unsqueeze(0))
     output = output.squeeze(0)
     return output
 
   def draw_coor_on_image(self, coor, image_path):
+    """Draws pose on blank image.
+
+      Parameters
+      ----------
+      coor: list
+        pose points coordinates
+
+      image_path: str
+        Image path
+      
+      Returns
+      -------
+      black_image: np.array
+        Pose Image.
+    """
     _, OUT_HEIGHT, OUT_WIDTH = coor.shape
     OUT_SHAPE = (OUT_HEIGHT, OUT_WIDTH)
     pose_layers = self.get_detached(x=coor)
@@ -107,6 +183,23 @@ class PoseEstimator:
 
   
   def estimate_pose(self, image_path, save=False):
+    """Runs the process of getting pose estimation.
+      Parameters
+      ----------
+      image_path: str
+        Image path
+      
+      save: bool
+        Save image to dir.
+
+      Returns
+      -------
+      img: np.array
+        Image numpy array.
+        
+      img_filepath: str
+        Image output filepath
+    """
     img_filepath = None
     image = self.load_image(image_path)
     pose_indi_outputs = self.get_pose_indicators(image)
