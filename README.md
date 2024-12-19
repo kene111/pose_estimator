@@ -44,7 +44,7 @@ pose_estimator (pe) is a deep learning learning system used in estimating human 
 3. download (```GET```):```http://127.0.0.1:5000/download/<path:file_name>```;```TESTED```.
 
 ### How to make requests to the deployed application:
-1.  estimate_pose (```POST```): Using postman, upload the data as form data, where the key value is ```file```.
+1.  estimate_pose (```POST```): Using postman, upload the data as form data, the value for the key is ```file```.
 ![image_postman_1](images/postman/postman_1.png)
 
 2. download (```GET```): Copy the link returned in step one and place on the web browser or make a get request using postman.
