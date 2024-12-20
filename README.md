@@ -24,7 +24,7 @@ pose_estimator (pe) is a deep learning learning system used in estimating human 
       1. ```config```: This folder holds model configuration file.
       2. ```model```: This folder holds the serialized model.
   
-### How to run the reflectly machine learning system (MLS) locally:
+### How to run the machine learning system (MLS) locally:
 1. Create and activate a virtual environment: 
     1.  Create venv:
 
